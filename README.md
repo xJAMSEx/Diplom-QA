@@ -56,7 +56,7 @@
     1) Запуск контейнера docker:  
        docker-compose up
     2) Запуск приложения:  
-       java -jar. /artifacts/aqa-shop.jar -P:jdbc.url=jdbc:postgresql://localhost:5432/app
+       java -jar ./artifacts/aqa-shop.jar -P:jdbc.url=jdbc:postgresql://localhost:5432/app
     3) Запуск тестов:  
        ./gradlew clean test '-Ddb.url=jdbc:postgresql://localhost:5432/app'
     4) Сформировать отчет:  
