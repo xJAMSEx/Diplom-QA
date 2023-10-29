@@ -25,7 +25,7 @@ public class CreditRequestTest {
 
     @BeforeEach
     void setUp() {
-        open("https://localhost:8080");
+        open("http://localhost:8080");
     }
 
     @AfterAll
