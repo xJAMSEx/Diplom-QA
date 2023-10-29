@@ -17,13 +17,13 @@ public class PaymentTest {
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
+        Configuration.browser = "chrome";
+        Configuration.browserSize = "1920x1080";
     }
 
     @BeforeEach
     void setUp() {
         open("http://localhost:8080");
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1920x1080";
     }
 
     @AfterAll
