@@ -42,9 +42,9 @@
    1) Запуск контейнера docker:  
       docker-compose up
    2) Запуск приложения:  
-      java -jar ./artifacts/aqa-shop.jar -P:jdbc.url=jdbc:mysql://localhost:3306/app
+      java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar ./artifacts/aqa-shop.jar
    3) Запуск тестов:  
-      ./gradlew clean test '-Ddb.url=jdbc:mysql://localhost:3306/app'
+      ./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"
    4) Сформировать отчет:  
       ./gradlew allureReport
    5) Открыть отчет в браузере командой:  
@@ -56,9 +56,9 @@
     1) Запуск контейнера docker:  
        docker-compose up
     2) Запуск приложения:  
-       java -jar ./artifacts/aqa-shop.jar -P:jdbc.url=jdbc:postgresql://localhost:5432/app
+       java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar ./artifacts/aqa-shop.jar
     3) Запуск тестов:  
-       ./gradlew clean test '-Ddb.url=jdbc:postgresql://localhost:5432/app'
+       ./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"
     4) Сформировать отчет:  
        ./gradlew allureReport
     5) Открыть отчет в браузере командой:  
