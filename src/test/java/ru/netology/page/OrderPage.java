@@ -17,11 +17,13 @@ public class OrderPage {
 
     public PaymentPage goToPayment() {
         paymentButton.click();
+
         return new PaymentPage();
     }
 
     public CreditPage goToCredit() {
         creditButton.click();
+
         return new CreditPage();
     }
 }

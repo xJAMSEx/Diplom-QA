@@ -1,5 +1,6 @@
 package ru.netology.test;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
@@ -23,19 +24,24 @@ public class CreditRequestTest {
     @BeforeEach
     void setUp() {
         open("https://localhost:8080");
+        Configuration.browser = "chrome";
+        Configuration.browserSize = "1920x1080";
     }
 
     @AfterAll
     static void tearDownAll() {
         SelenideLogger.removeListener("allure");
+        DataHelper.cleanData();
     }
 
     @Test
     void shouldCreditApprovedCard() {
         val cardInfo = new DataHelper().getValidCardInfo("approved");
         val creditPage = new OrderPage().goToCredit();
+
         creditPage.credit(cardInfo);
         creditPage.approved();
+
         assertEquals("APPROVED", new DataBaseHelper().getCreditRequestStatus());
         assertNull(new DataBaseHelper().getCreditId());
     }
@@ -44,8 +50,10 @@ public class CreditRequestTest {
     void shouldPaymentDeclinedCard() {
         val cardInfo = new DataHelper().getValidCardInfo("declined");
         val creditPage = new OrderPage().goToCredit();
+
         creditPage.credit(cardInfo);
         creditPage.declined();
+
         assertEquals("DECLINED", new DataBaseHelper().getCreditRequestStatus());
         assertNull(new DataBaseHelper().getCreditId());
     }
@@ -54,6 +62,7 @@ public class CreditRequestTest {
     void shouldGetNotificationInvalidCard() {
         val cardInfo = new DataHelper().getInvalidCardInfo("approved");
         val creditPage = new OrderPage().goToCredit();
+
         creditPage.credit(cardInfo);
         creditPage.invalidCardNotification();
     }
@@ -62,6 +71,7 @@ public class CreditRequestTest {
     void shouldGetNotificationWrongFormatCard() {
         val cardInfo = new DataHelper().getInvalidFormatCard("4444");
         val creditPage = new OrderPage().goToCredit();
+
         creditPage.credit(cardInfo);
         creditPage.wrongFormatNotification();
     }
@@ -69,6 +79,7 @@ public class CreditRequestTest {
     @Test
     void shouldGetNotificationEmptyFields() {
         val creditPage = new OrderPage().goToCredit();
+
         creditPage.emptyFieldNotification();
     }
 

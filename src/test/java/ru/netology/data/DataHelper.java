@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter;
 public class DataHelper {
     private Faker faker = new Faker();
 
+    public static void cleanData() {
+    }
+
     private String getCardNumber(String card) {
         if (card.equalsIgnoreCase("approved")) {
             return "4444 4444 4444 4441";
