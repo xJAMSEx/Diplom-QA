@@ -13,16 +13,16 @@ public class PaymentPage {
     private SelenideElement cardNumber = $(".input [placeholder='0000 0000 0000 0000']");
     private SelenideElement month = $(".input [placeholder='08']");
     private SelenideElement year = $(".input [placeholder='22']");
-    private SelenideElement fieldCardOwner = $$(".input__top").find(text("Владелец")).parent();
+    private SelenideElement fieldCardOwner = $$(".input__inner").find(text("Владелец")).parent();
     private SelenideElement cardOwner = fieldCardOwner.$(".input__control");
     private SelenideElement cvc = $(".input [placeholder='999']");
     private SelenideElement proceedButton = $(".form-field button");
     private SelenideElement approvedNotification = $(".notification_status_ok");
     private SelenideElement declinedNotification = $(".notification_status_error");
-    private SelenideElement fieldCard = $$(".input__top").find(text("Номер карты")).parent();
-    private SelenideElement fieldMonth = $$(".input__top").find(text("Месяц")).parent();
-    private SelenideElement fieldYear = $$(".input__top").find(text("Год")).parent();
-    private SelenideElement fieldCvc = $$(".input__top").find(text("CVC/CVV")).parent();
+    private SelenideElement fieldCard = $$(".input__inner").find(text("Номер карты")).parent();
+    private SelenideElement fieldMonth = $$(".input__inner").find(text("Месяц")).parent();
+    private SelenideElement fieldYear = $$(".input__inner").find(text("Год")).parent();
+    private SelenideElement fieldCvc = $$(".input__inner").find(text("CVC/CVV")).parent();
 
     public PaymentPage() {
         heading.shouldBe(visible);
@@ -60,7 +60,7 @@ public class PaymentPage {
 
     public void emptyFieldNotification() {
         proceedButton.click();
-        fieldCard.$(".input__sub").shouldBe(visible).shouldHave(text("Поле обязательно для заполнения"));
+        fieldCard.$(".input__sub").shouldBe(visible).shouldHave(text("Неверный формат"));
         fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(text("Поле обязательно для заполнения"));
         fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
         fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
