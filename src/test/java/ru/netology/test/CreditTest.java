@@ -37,7 +37,7 @@ public class CreditRequestTest {
     @Test
     void shouldCreditApprovedCard() {
         val cardInfo = new DataHelper().getValidCardInfo("approved");
-        val creditPage = new OrderPage().goToCredit();
+        val creditPage = new OrderPage().openBuyCredit();
 
         creditPage.credit(cardInfo);
         creditPage.approved();
@@ -49,7 +49,7 @@ public class CreditRequestTest {
     @Test
     void shouldPaymentDeclinedCard() {
         val cardInfo = new DataHelper().getValidCardInfo("declined");
-        val creditPage = new OrderPage().goToCredit();
+        val creditPage = new OrderPage().openBuyCredit();
 
         creditPage.credit(cardInfo);
         creditPage.declined();
@@ -61,7 +61,7 @@ public class CreditRequestTest {
     @Test
     void shouldGetNotificationInvalidCard() {
         val cardInfo = new DataHelper().getInvalidCardInfo("approved");
-        val creditPage = new OrderPage().goToCredit();
+        val creditPage = new OrderPage().openBuyCredit();
 
         creditPage.credit(cardInfo);
         creditPage.invalidCardNotification();
@@ -70,7 +70,7 @@ public class CreditRequestTest {
     @Test
     void shouldGetNotificationWrongFormatCard() {
         val cardInfo = new DataHelper().getInvalidFormatCard("4444");
-        val creditPage = new OrderPage().goToCredit();
+        val creditPage = new OrderPage().openBuyCredit();
 
         creditPage.credit(cardInfo);
         creditPage.wrongFormatNotification();
@@ -78,7 +78,7 @@ public class CreditRequestTest {
 
     @Test
     void shouldGetNotificationEmptyFields() {
-        val creditPage = new OrderPage().goToCredit();
+        val creditPage = new OrderPage().openBuyCredit();
 
         creditPage.emptyFieldNotification();
     }
