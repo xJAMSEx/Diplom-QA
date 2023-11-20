@@ -1,69 +1,74 @@
 package ru.netology.page;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PaymentPage {
-    private SelenideElement heading = $$(".heading").find(exactText("Оплата по карте"));
-    private SelenideElement cardNumber = $(".input [placeholder='0000 0000 0000 0000']");
-    private SelenideElement month = $(".input [placeholder='08']");
-    private SelenideElement year = $(".input [placeholder='22']");
-    private SelenideElement fieldCardOwner = $$(".input__inner").find(text("Владелец")).parent();
-    private SelenideElement cardOwner = fieldCardOwner.$(".input__control");
-    private SelenideElement cvc = $(".input [placeholder='999']");
-    private SelenideElement proceedButton = $(".form-field button");
-    private SelenideElement approvedNotification = $(".notification_status_ok");
-    private SelenideElement declinedNotification = $(".notification_status_error");
-    private SelenideElement fieldCard = $$(".input__inner").find(text("Номер карты")).parent();
-    private SelenideElement fieldMonth = $$(".input__inner").find(text("Месяц")).parent();
-    private SelenideElement fieldYear = $$(".input__inner").find(text("Год")).parent();
-    private SelenideElement fieldCvc = $$(".input__inner").find(text("CVC/CVV")).parent();
+    private final SelenideElement heading = $(byText("Оплата по карте"));
+    private final ElementsCollection fields = $$(".input__control");
+    private final SelenideElement cardNumberField = $("[placeholder='0000 0000 0000 0000']");
+    private final SelenideElement monthField = $("[placeholder='08']");
+    private final SelenideElement yearField = $("[placeholder='22']");
+    private final SelenideElement holderField = fields.get(3);
+    private final SelenideElement cvcField = $("[placeholder='999']");
+    private final SelenideElement continueButton = $(withText("Продолжить"));
+
+    private final SelenideElement successNotification = $(withText("Успешно"));
+    private final SelenideElement errorNotification = $(withText("Ошибка! Банк отказал в проведении операции."));
+    private final SelenideElement invalidFormat = $(withText("Неверный формат"));
+    private final SelenideElement requiredField = $(withText("Поле обязательно для заполнения"));
+    private final SelenideElement expiredYearError = $(withText("Истёк срок действия карты"));
+    private final SelenideElement invalidDateError = $(withText("Неверно указан срок действия карты"));
 
     public PaymentPage() {
         heading.shouldBe(visible);
+        cardNumberField.shouldBe(visible);
+        monthField.shouldBe(visible);
+        yearField.shouldBe(visible);
+        holderField.shouldBe(visible);
+        cvcField.shouldBe(visible);
+        continueButton.shouldBe(visible);
+        successNotification.shouldBe(hidden);
+        errorNotification.shouldBe(hidden);
     }
 
-    public void payment(DataHelper.CardInfo info) {
-        cardNumber.setValue(info.getCardNumber());
-        month.setValue(info.getMonth());
-        year.setValue(info.getYear());
-        cardOwner.setValue(info.getOwnerName());
-        cvc.setValue(info.getCvc());
-        proceedButton.click();
-    }
-    public void approved() {
-        approvedNotification.shouldBe(visible, Duration.ofSeconds(15));
+    public void inputData(DataHelper.CardInformation cardInformation) {
+        cardNumberField.setValue(cardInformation.getCardNumber());
+        monthField.setValue(cardInformation.getMonth());
+        yearField.setValue(cardInformation.getYear());
+        holderField.setValue(cardInformation.getHolder());
+        cvcField.setValue(cardInformation.getCVV());
+        continueButton.click();
     }
 
-    public void declined() {
-        declinedNotification.shouldBe(visible, Duration.ofSeconds(15));
+    public void getSuccessNotification() {
+        successNotification.should(visible, Duration.ofSeconds(15));
     }
 
-    public void invalidCardNotification() {
-        fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверно указан срок действия карты"));
-        fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Истёк срок действия карты"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
+    public void getErrorNotification() {
+        errorNotification.should(visible, Duration.ofSeconds(15));
+    }
+    public void getInvalidFormatCard() {
+        invalidFormat.shouldBe(visible);
     }
 
-    public void wrongFormatNotification() {
-        fieldCard.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
+    public void getRequiredFieldCard() {
+        requiredField.shouldBe(visible);
     }
 
-    public void emptyFieldNotification() {
-        proceedButton.click();
-        fieldCard.$(".input__sub").shouldBe(visible).shouldHave(text("Неверный формат"));
-        fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(text("Поле обязательно для заполнения"));
-        fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
+    public void expiredCardYear() {
+        expiredYearError.shouldBe(visible);
+    }
+
+    public void getInvalidDateCard() {
+        invalidDateError.shouldBe(visible);
     }
 }
