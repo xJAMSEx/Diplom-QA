@@ -20,7 +20,8 @@ allure{
 }
 
 repositories {
-    jcenter()
+    //jcenter()
+    google()
     mavenCentral()
 }
 
